@@ -33,7 +33,7 @@ class Api::V1::JobsController < ApplicationController
 
   def job_scope
     company_id = request.path_parameters[:company_id]
-    company_id ||= params[:company_id] if action_name == "index"
+    company_id ||= identifier_param(:company_id) if action_name == "index"
     company_id.present? ? Company.active.find(company_id).jobs.active : Job.active
   end
 

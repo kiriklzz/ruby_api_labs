@@ -23,6 +23,13 @@ class ApplicationController < ActionController::API
 
   private
 
+  def identifier_param(field)
+    value = params[field]
+    return value if value.nil? || value.is_a?(String) || value.is_a?(Integer)
+
+    raise ActionController::BadRequest, "#{field} must be a scalar identifier"
+  end
+
   def filter_text(records, field)
     return records if params[field].blank?
 

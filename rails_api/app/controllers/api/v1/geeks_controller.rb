@@ -2,13 +2,15 @@ class Api::V1::GeeksController < ApplicationController
   before_action :set_geek, only: %i[show update destroy resume]
 
   def index
+    company_id = identifier_param(:company_id)
+    job_id = identifier_param(:job_id)
     geeks = Geek.all
-    if params[:job_id].present?
-      jobs = params[:company_id].present? ? Company.active.find(params[:company_id]).jobs.active : Job.active
-      job = jobs.find(params[:job_id])
+    if job_id.present?
+      jobs = company_id.present? ? Company.active.find(company_id).jobs.active : Job.active
+      job = jobs.find(job_id)
       geeks = geeks.joins(:applies).where(applies: { job_id: job.id }).distinct
-    elsif params[:company_id].present?
-      company = Company.active.find(params[:company_id])
+    elsif company_id.present?
+      company = Company.active.find(company_id)
       geeks = geeks.joins(:applies).where(applies: { job_id: company.jobs.active.select(:id) }).distinct
     end
     geeks = filter_text(geeks, :name)

@@ -152,6 +152,45 @@ class RecruitingApiTest < ActionDispatch::IntegrationTest
     assert @apply.reload.invited?
   end
 
+  test "identifier filters reject arrays and objects with JSON 400" do
+    {
+      "/v1/jobs" => { company_id: @company.id },
+      "/v1/applies" => { company_id: @company.id, job_id: @job.id, geek_id: @geek.id },
+      "/v1/geeks" => { company_id: @company.id, job_id: @job.id }
+    }.each do |path, filters|
+      filters.each do |field, id|
+        [[id], { value: id }].each do |value|
+          get path, params: { field => value }
+
+          assert_response :bad_request
+          assert_equal "application/json", response.media_type
+          assert_equal "#{field} must be a scalar identifier", response.parsed_body["error"]
+        end
+      end
+    end
+  end
+
+  test "query string arrays are rejected in identifier filters" do
+    get "/v1/jobs?company_id[]=#{@company.id}"
+    assert_response :bad_request
+
+    get "/v1/applies?job_id[]=#{@job.id}"
+    assert_response :bad_request
+
+    get "/v1/geeks?job_id[]=#{@job.id}"
+    assert_response :bad_request
+  end
+
+  test "nested apply creation rejects a structured company filter" do
+    assert_no_difference "Apply.count" do
+      post "/v1/jobs/#{@job.id}/applies",
+        params: { company_id: [@company.id], geek_id: @geek.id }, as: :json
+    end
+
+    assert_response :bad_request
+    assert_equal "company_id must be a scalar identifier", response.parsed_body["error"]
+  end
+
   test "company and job applicants and applies are available" do
     [
       ["/v1/companies/#{@company.id}/geeks", @geek.id],
