@@ -1,0 +1,6 @@
+development:
+  database: sinatra_seq_dev
+test:
+  database: sinatra_seq_test
+production:
+  database: sinatra_seq_prod

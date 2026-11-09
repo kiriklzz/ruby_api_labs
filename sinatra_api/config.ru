@@ -1,2 +1,2 @@
-require_relative 'my_sinatra'
-run MyAppModule::App
+require_relative 'api_sinatra_postgres'
+run Sinatra::Application
