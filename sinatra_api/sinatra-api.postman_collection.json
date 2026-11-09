@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "Sinatra API — части 2–4",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:4567"
+    }
+  ],
+  "item": [
+    {
+      "name": "GET companies",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/companies"
+      }
+    },
+    {
+      "name": "GET companies?name=Mo&location=Ne",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/companies?name=Mo&location=Ne"
+      }
+    },
+    {
+      "name": "GET company/2",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/company/2"
+      }
+    },
+    {
+      "name": "GET company_jobs?name=Mo",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/company_jobs?name=Mo"
+      }
+    },
+    {
+      "name": "GET jobs",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/jobs"
+      }
+    },
+    {
+      "name": "GET jobs?name=React&place=Rem",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/jobs?name=React&place=Rem"
+      }
+    },
+    {
+      "name": "GET jobs_company/MoGo",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/jobs_company/MoGo"
+      }
+    },
+    {
+      "name": "GET job/1",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/job/1"
+      }
+    },
+    {
+      "name": "GET job/999999",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/job/999999"
+      }
+    },
+    {
+      "name": "GET geeks",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/geeks"
+      }
+    },
+    {
+      "name": "GET geek/1",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/geek/1"
+      }
+    },
+    {
+      "name": "GET applies",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/applies"
+      }
+    },
+    {
+      "name": "GET applies_read",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/applies_read"
+      }
+    },
+    {
+      "name": "GET applies_unread",
+      "request": {
+        "method": "GET",
+        "url": "{{base_url}}/api/v1/applies_unread"
+      }
+    },
+    {
+      "name": "POST companies",
+      "request": {
+        "method": "POST",
+        "url": "{{base_url}}/api/v1/companies",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"name\": \"Dieter\", \"location\": \"Ubud\"}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        }
+      }
+    }
+  ]
+}

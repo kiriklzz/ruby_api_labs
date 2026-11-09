@@ -12,6 +12,7 @@ module MyAppModule
     get('/say/*/to/*') { params[:splat].to_json }
     get('/download/*.*') { params[:splat].to_json }
     get('/jobs.?:format?') { 'Да, работает этот маршрут!' }
+    get(%r{/meta/hello/([\w]+)}) { |name| "Hello, #{name}!" }
 
     namespace '/api/v1' do
       get('/*') { "I don't know what is the #{params[:splat]}. It's what you typed." }

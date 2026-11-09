@@ -26,6 +26,8 @@ class RoutesTest < Minitest::Test
     assert_equal ['path/to/file', 'xml'], JSON.parse(last_response.body)
     get '/jobs.json'
     assert_equal 'Да, работает этот маршрут!', last_response.body
+    get '/meta/hello/world'
+    assert_equal 'Hello, world!', last_response.body
   end
 
   def test_namespace_and_fallback
