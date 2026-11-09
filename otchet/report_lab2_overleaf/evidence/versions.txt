@@ -1,0 +1,4 @@
+ruby 3.2.2 (2023-03-30 revision e51014f9c0) [arm64-darwin24]
+Sinatra 4.2.1
+Sequel 5.110.0
+PG 1.7.0

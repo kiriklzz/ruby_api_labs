@@ -1,0 +1,27 @@
+$ bundle exec rake db:migrate db:version db:seed
+Schema Version: 4
+
+$ bundle exec rake db:seed
+
+$ bundle exec rake db:rollback[2] db:version
+Schema Version: 2
+
+$ bundle exec rake db:migrate db:reset db:version
+Schema Version: 4
+
+$ psql -h localhost -d sinatra_seq_audit_20261109 -c TABLE schema_seeds;
+        filename         
+-------------------------
+ 2026110900_clear.rb
+ 2026110901_companies.rb
+ 2026110902_jobs.rb
+ 2026110903_geeks.rb
+ 2026110904_applies.rb
+(5 rows)
+
+
+$ bundle exec rake db:seed
+
+$ bundle exec ruby -r ./config/database -e raise unless DB[:companies].count == 4 && DB[:jobs].count == 9 && DB[:geeks].count == 4 && DB[:applies].count == 6; raise unless DB[:jobs].where(id: 11).get(:name) == 'C++'; raise unless DB[:jobs].insert(name: 'Sequence check', place: 'Remote', company_id: 1) == 12; puts DB[:companies].select(:id, :name).order(:name).where{ id < 3 }.all.inspect; puts 'Seeds, ID 11, next ID 12, dataset: OK'
+[{:id=>1, :name=>"MoGo"}, {:id=>2, :name=>"Wirkkle"}]
+Seeds, ID 11, next ID 12, dataset: OK

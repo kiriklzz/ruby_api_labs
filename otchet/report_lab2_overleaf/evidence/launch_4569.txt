@@ -1,0 +1,20 @@
+$ PORT=4569 bundle exec ruby classic.rb -p 4569
+== Sinatra (v4.2.1) has taken the stage on 4569 for development with backup from Puma
+Puma starting in single mode...
+* Puma version: 8.0.2 ("Into the Arena")
+* Ruby version: ruby 3.2.2 (2023-03-30 revision e51014f9c0) [arm64-darwin24]
+*  Min threads: 0
+*  Max threads: 5
+*  Environment: development
+*          PID: 83028
+* Listening on http://127.0.0.1:4569
+* Listening on http://[::1]:4569
+Use Ctrl-C to stop
+::1 - - [09/Nov/2026:14:18:44 +0300] "GET / HTTP/1.1" 200 39 0.0016
+::1 - - [09/Nov/2026:14:18:44 +0300] "GET / HTTP/1.1" 200 39 0.0003
+::1 - - [09/Nov/2026:14:18:44 +0300] "GET /hello/Peter HTTP/1.1" 200 49 0.0009
+::1 - - [09/Nov/2026:14:18:44 +0300] "GET /api/v1/friends HTTP/1.1" 200 58 0.0006
+- Gracefully stopping, waiting for requests to finish
+=== puma shutdown: 2026-11-09 14:18:44 +0300 ===
+- Goodbye!
+== Sinatra has ended his set (crowd applauds)

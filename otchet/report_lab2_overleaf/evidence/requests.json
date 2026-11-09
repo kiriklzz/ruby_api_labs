@@ -1,0 +1,208 @@
+{
+  "classic_direct": [
+    {
+      "url": "http://localhost:4569/",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Hello My Sinatra - Easy and Wide world!",
+      "redirected_to": "http://localhost:4569/"
+    },
+    {
+      "url": "http://localhost:4569/hello/Peter",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Sinatra приветствует тебя, Peter!",
+      "redirected_to": "http://localhost:4569/hello/Peter"
+    },
+    {
+      "url": "http://localhost:4569/api/v1/friends",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "I don't know what is the [\"friends\"]. It's what you typed.",
+      "redirected_to": "http://localhost:4569/api/v1/friends"
+    }
+  ],
+  "classic_rack": [
+    {
+      "url": "http://localhost:4570/",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Hello My Sinatra - Easy and Wide world!",
+      "redirected_to": "http://localhost:4570/"
+    },
+    {
+      "url": "http://localhost:4570/friends",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "I don't know what is the [\"friends\"]. It's what you typed.",
+      "redirected_to": "http://localhost:4570/friends"
+    }
+  ],
+  "modular_direct": [
+    {
+      "url": "http://localhost:4571/",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Hello My Sinatra - Easy and Wide world!",
+      "redirected_to": "http://localhost:4571/"
+    },
+    {
+      "url": "http://localhost:4571/hello/Peter",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Sinatra приветствует тебя, Peter!",
+      "redirected_to": "http://localhost:4571/hello/Peter"
+    }
+  ],
+  "modular_rack": [
+    {
+      "url": "http://localhost:4567/",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Hello My Sinatra - Easy and Wide world!",
+      "redirected_to": "http://localhost:4567/"
+    },
+    {
+      "url": "http://localhost:4567/hello/Peter",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Sinatra приветствует тебя, Peter!",
+      "redirected_to": "http://localhost:4567/hello/Peter"
+    },
+    {
+      "url": "http://localhost:4567/hello_block/Peter",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Hello Peter!",
+      "redirected_to": "http://localhost:4567/hello_block/Peter"
+    },
+    {
+      "url": "http://localhost:4567/redirect",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Sinatra приветствует тебя, World!",
+      "redirected_to": "http://localhost:4567/hello/World"
+    },
+    {
+      "url": "http://localhost:4567/players/football",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "football",
+      "redirected_to": "http://localhost:4567/players/football"
+    },
+    {
+      "url": "http://localhost:4567/players/performances/2016",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "{\"splat\":[\"performances\"],\"year\":\"2016\"}",
+      "redirected_to": "http://localhost:4567/players/performances/2016"
+    },
+    {
+      "url": "http://localhost:4567/meta/hello/12345/world",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Hello, 12345!",
+      "redirected_to": "http://localhost:4567/meta/hello/12345/world"
+    },
+    {
+      "url": "http://localhost:4567/say/hello/to/world",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "[\"hello\",\"world\"]",
+      "redirected_to": "http://localhost:4567/say/hello/to/world"
+    },
+    {
+      "url": "http://localhost:4567/download/path/to/file.xml",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "[\"path/to/file\",\"xml\"]",
+      "redirected_to": "http://localhost:4567/download/path/to/file.xml"
+    },
+    {
+      "url": "http://localhost:4567/jobs",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Да, работает этот маршрут!",
+      "redirected_to": "http://localhost:4567/jobs"
+    },
+    {
+      "url": "http://localhost:4567/jobs.json",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Да, работает этот маршрут!",
+      "redirected_to": "http://localhost:4567/jobs.json"
+    },
+    {
+      "url": "http://localhost:4567/jobs.xml",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "Да, работает этот маршрут!",
+      "redirected_to": "http://localhost:4567/jobs.xml"
+    },
+    {
+      "url": "http://localhost:4567/friends",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "I don't know what is the [\"friends\"]. It's what you typed.",
+      "redirected_to": "http://localhost:4567/friends"
+    },
+    {
+      "url": "http://localhost:4567/api/v1/friends",
+      "status": 200,
+      "content_type": "text/plain;charset=utf-8",
+      "body": "I don't know what is the [\"friends\"]. It's what you typed.",
+      "redirected_to": "http://localhost:4567/api/v1/friends"
+    }
+  ],
+  "api": [
+    {
+      "url": "http://localhost:4568/",
+      "status": 200,
+      "content_type": "text/html;charset=utf-8",
+      "body": "Hi! I am api_sinatra_postgres!",
+      "redirected_to": "http://localhost:4568/"
+    },
+    {
+      "url": "http://localhost:4568/api/v1/companies?name=Mo;location=Ne",
+      "status": 200,
+      "content_type": "application/json",
+      "body": "[{\"id\":1,\"name\":\"MoGo\",\"location\":\"New York\"}]",
+      "redirected_to": "http://localhost:4568/api/v1/companies?name=Mo;location=Ne"
+    },
+    {
+      "url": "http://localhost:4568/api/v1/companies?name=Mo;location=Si",
+      "status": 200,
+      "content_type": "application/json",
+      "body": "[]",
+      "redirected_to": "http://localhost:4568/api/v1/companies?name=Mo;location=Si"
+    },
+    {
+      "url": "http://localhost:4568/api/v1/jobs_company/MoGo",
+      "status": 200,
+      "content_type": "application/json",
+      "body": "[{\"id\":1,\"name\":\"Sinatra React\",\"place\":\"Remote\",\"company_id\":1},{\"id\":4,\"name\":\"Node React\",\"place\":\"Permanent\",\"company_id\":1}]",
+      "redirected_to": "http://localhost:4568/api/v1/jobs_company/MoGo"
+    },
+    {
+      "url": "http://localhost:4568/api/v1/applies_read",
+      "status": 200,
+      "content_type": "application/json",
+      "body": "[{\"id\":1,\"read\":true,\"invited\":false,\"job_id\":1,\"geek_id\":1},{\"id\":3,\"read\":true,\"invited\":true,\"job_id\":1,\"geek_id\":2},{\"id\":6,\"read\":true,\"invited\":true,\"job_id\":2,\"geek_id\":4}]",
+      "redirected_to": "http://localhost:4568/api/v1/applies_read"
+    },
+    {
+      "url": "http://localhost:4568/api/v1/applies_unread",
+      "status": 200,
+      "content_type": "application/json",
+      "body": "[{\"id\":2,\"read\":false,\"invited\":false,\"job_id\":2,\"geek_id\":3},{\"id\":4,\"read\":false,\"invited\":false,\"job_id\":3,\"geek_id\":1},{\"id\":5,\"read\":false,\"invited\":false,\"job_id\":5,\"geek_id\":2}]",
+      "redirected_to": "http://localhost:4568/api/v1/applies_unread"
+    },
+    {
+      "url": "http://localhost:4568/api/v1/job/111",
+      "status": 404,
+      "content_type": "application/json",
+      "body": "{\"message\":\"Document Not Found\",\"status\":404}",
+      "redirected_to": "http://localhost:4568/api/v1/job/111"
+    }
+  ]
+}

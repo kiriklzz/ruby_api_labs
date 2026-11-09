@@ -1,0 +1,16 @@
+$ PORT=4571 bundle exec ruby my_sinatra.rb
+== Sinatra (v4.2.1) has taken the stage on 4571 for development with backup from Puma
+Puma starting in single mode...
+* Puma version: 8.0.2 ("Into the Arena")
+* Ruby version: ruby 3.2.2 (2023-03-30 revision e51014f9c0) [arm64-darwin24]
+*  Min threads: 0
+*  Max threads: 5
+*  Environment: development
+*          PID: 83031
+* Listening on http://127.0.0.1:4571
+* Listening on http://[::1]:4571
+Use Ctrl-C to stop
+- Gracefully stopping, waiting for requests to finish
+=== puma shutdown: 2026-11-09 14:18:45 +0300 ===
+- Goodbye!
+== Sinatra has ended his set (crowd applauds)

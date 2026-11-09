@@ -1,0 +1,17 @@
+<!DOCTYPE html><meta charset="utf-8"><style>body{margin:32px;color:#151515;background:white;font-family:Arial,sans-serif}h1{font-size:26px;margin:0 0 8px}p{color:#555;font-size:16px;margin:0 0 24px}pre{font:24px/1.4 Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;border-top:1px solid #bbb;padding-top:22px}</style><h1>Классический стиль: запуск и запросы</h1><p>Лабораторная работа №2 · Протокол фактических запусков и HTTP-ответов · 09.11.2026</p><pre>$ PORT=4569 bundle exec ruby classic.rb -p 4569
+== Sinatra (v4.2.1) has taken the stage on 4569 for development with backup from Puma
+Puma starting in single mode...
+* Puma version: 8.0.2 (&quot;Into the Arena&quot;)
+* Ruby version: ruby 3.2.2 (2023-03-30 revision e51014f9c0) [arm64-darwin24]
+*  Min threads: 0
+
+
+GET http://localhost:4569/
+HTTP 200 | text/plain;charset=utf-8
+
+Hello My Sinatra - Easy and Wide world!
+
+GET http://localhost:4569/hello/Peter
+HTTP 200 | text/plain;charset=utf-8
+
+Sinatra приветствует тебя, Peter!</pre>

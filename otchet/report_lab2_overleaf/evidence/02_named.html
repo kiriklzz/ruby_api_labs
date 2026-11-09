@@ -1,0 +1,19 @@
+<!DOCTYPE html><meta charset="utf-8"><style>body{margin:32px;color:#151515;background:white;font-family:Arial,sans-serif}h1{font-size:26px;margin:0 0 8px}p{color:#555;font-size:16px;margin:0 0 24px}pre{font:24px/1.4 Menlo,monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:0;border-top:1px solid #bbb;padding-top:22px}</style><h1>Именованные параметры</h1><p>Лабораторная работа №2 · Протокол фактических запусков и HTTP-ответов · 09.11.2026</p><pre>GET http://localhost:4567/hello/Peter
+HTTP 200 | text/plain;charset=utf-8
+
+Sinatra приветствует тебя, Peter!
+
+GET http://localhost:4567/hello_block/Peter
+HTTP 200 | text/plain;charset=utf-8
+
+Hello Peter!
+
+GET http://localhost:4567/players/football
+HTTP 200 | text/plain;charset=utf-8
+
+football
+
+GET http://localhost:4567/players/performances/2016
+HTTP 200 | text/plain;charset=utf-8
+
+{&quot;splat&quot;:[&quot;performances&quot;],&quot;year&quot;:&quot;2016&quot;}</pre>

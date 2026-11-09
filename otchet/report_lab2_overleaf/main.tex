@@ -1,0 +1,215 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage{fontspec}
+\setmainfont{cmunrm.otf}[BoldFont=cmunbx.otf,ItalicFont=cmunti.otf,BoldItalicFont=cmunbi.otf]
+\setmonofont{cmuntt.otf}[Scale=0.9]
+\usepackage[russian]{babel}
+\usepackage[left=30mm,right=15mm,top=20mm,bottom=20mm]{geometry}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{pdflscape}
+\input{metadata}
+\linespread{1.3}
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+\setlength{\emergencystretch}{3em}
+\sloppy
+\newcommand{\shot}[3]{
+  \begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth,height=0.45\textheight,keepaspectratio]{images/#1}
+    \caption{#2}
+  \end{figure}
+}
+\begin{document}
+\begin{titlepage}
+  \thispagestyle{empty}
+  \begin{center}
+    \University\\
+    \Institute\\
+    \School
+  \end{center}
+  \vspace{30mm}
+  \begin{center}
+    \textbf{ЛАБОРАТОРНАЯ РАБОТА №2}\\[5mm]
+    \textbf{Разработка API}\\
+    \textbf{с использованием фреймворка Sinatra}\\[4mm]
+    по дисциплине «\Discipline»
+  \end{center}
+  \vspace{47mm}
+  \begin{flushright}
+    \begin{minipage}{0.58\textwidth}
+      Выполнил: студент гр. \StudentGroup\\
+      \StudentName\\[5mm]
+      Руководитель: \SupervisorRole\\
+      \SupervisorName
+    \end{minipage}
+  \end{flushright}
+  \vfill
+  \begin{center}
+    \ReportCity\\
+    \ReportYear
+  \end{center}
+\end{titlepage}
+\setcounter{page}{2}
+
+
+\section{Цель и задание работы}
+
+Цель работы --- изучить маршрутизацию Sinatra и подготовить основу API для сервиса рекрутинга.
+
+Необходимо установить зависимости, создать приложение в классическом и модульном стилях, проверить прямой запуск и запуск через Rack. Требуется реализовать именованные параметры, маски splat, регулярное выражение, перенаправление и необязательную часть маршрута, а также подключить пространство имён. В завершение нужно подготовить структуру приложения Sinatra для дальнейшего подключения PostgreSQL.
+
+Работа выполнена в каталоге \texttt{sinatra\_api} репозитория \texttt{github.com/kiriklzz/}\allowbreak\texttt{ruby\_api\_labs}. Использованы Ruby 3.2.2, Sinatra 4.2.1, Rack и Puma 8.0.2. В методичке приведены более ранние версии Sinatra и серверы Thin/WEBrick; в работе те же способы запуска проверены с Puma.
+
+\section{Установка и структура проекта}
+
+В \texttt{Gemfile} указаны Sinatra, расширение \texttt{sinatra-contrib}, Rackup и Puma. Для следующих этапов API подключены драйвер \texttt{pg}, ORM Sequel, \texttt{sequel-seed}, Rake и Dotenv. Версии зависимостей сохранены в \texttt{Gemfile.lock}.
+
+\begin{verbatim}
+cd sinatra_api
+bundle install
+\end{verbatim}
+
+Сохранены отдельные файлы: \texttt{classic.rb} для классического стиля и \texttt{my\_sinatra.rb} для модульного. Конфигурации Rack находятся в \texttt{classic.ru} и \texttt{modular.ru}. Итоговое приложение собирается через \texttt{config.ru}.
+
+\begin{verbatim}
+sinatra_api/
+  config/          # настройки подключения
+  helpers/         # сериализация и общие методы
+  models/          # модели Sequel
+  routes/          # маршруты по ресурсам
+  lib/tasks/       # задачи Rake
+  db/migrations/   # миграции
+  seeds/           # исходные данные
+  test/            # проверки маршрутов и API
+\end{verbatim}
+
+Маршруты сгруппированы по ресурсам в \texttt{routes}; отдельные контроллеры для этой структуры не потребовались. Миграции, наполнение базы и конечные точки с фильтрами относятся к следующим работам; здесь проверяется основа приложения и загрузка файлов.
+
+\clearpage
+\section{Классический и модульный стили}
+\subsection{Классический вариант}
+
+В \texttt{classic.rb} подключён \texttt{sinatra}. Маршруты определены на верхнем уровне. Корневой маршрут возвращает приветствие, \texttt{/hello/:name} использует имя из URL, а общий \texttt{/*} обрабатывает остальные пути.
+
+\begin{verbatim}
+require 'sinatra'
+get('/') { 'Hello My Sinatra - Easy and Wide world!' }
+get('/hello/:name') do
+  "Sinatra приветствует тебя, #{params[:name]}!"
+end
+\end{verbatim}
+
+Прямой запуск выполняется командой \texttt{bundle exec ruby classic.rb}. Для Rack создан \texttt{classic.ru}:
+\begin{verbatim}
+require_relative 'classic'
+run Sinatra::Application
+\end{verbatim}
+
+Проверены оба варианта. На рисунке~1 приведён протокол прямого запуска и реальные ответы. Для параллельной проверки использован порт 4569; стандартный порт Sinatra --- 4567.
+
+\shot{01_launch.png}{Прямой запуск классического приложения и HTTP-ответы}{65mm}
+
+\clearpage
+\subsection{Модульный вариант и запуск через Rack}
+
+В \texttt{my\_sinatra.rb} создан класс \texttt{MyAppModule::App}, унаследованный от \texttt{Sinatra::Base}. Расширение пространства имён зарегистрировано в классе приложения.
+
+\begin{verbatim}
+require 'sinatra/base'
+require 'sinatra/namespace'
+module MyAppModule
+  class App < Sinatra::Base
+    register Sinatra::Namespace
+    # определения маршрутов
+    run! if app_file == $PROGRAM_NAME
+  end
+end
+\end{verbatim}
+
+Файл \texttt{modular.ru} подключает класс и передаёт его Rack:
+\begin{verbatim}
+require_relative 'my_sinatra'
+run MyAppModule::App
+\end{verbatim}
+
+Выполнены запуск через Ruby-файл и запуск через Rack:
+\begin{verbatim}
+bundle exec ruby my_sinatra.rb
+bundle exec rackup -p 4567 modular.ru
+\end{verbatim}
+
+Это альтернативные команды: предыдущий сервер нужно остановить либо выбрать другой порт. При контрольном запуске модульного Ruby-файла порт задан через \texttt{PORT=4571}. Для Rack порт задаётся аргументом \texttt{-p}.
+
+На следующих рисунках показаны скриншоты протоколов фактических HTTP-запросов к модульному приложению. Протоколы содержат URL, статус, тип содержимого и тело ответа; это не снимки интерфейса Postman. Исходные результаты сохранены в \texttt{evidence/requests.json}.
+
+\subsection{Порядок маршрутов}
+
+Специальные маршруты объявлены до общего \texttt{/*}. Иначе общий обработчик перехватывал бы запросы к приветствию и другим примерам. Маска внутри namespace расположена перед внешней общей маской.
+
+Текстовые примеры возвращаются с типом \texttt{text/plain; charset=utf-8}. Поэтому имя отображается как текст и не интерпретируется браузером как HTML.
+
+\clearpage
+\section{Проверка маршрутов}
+\subsection{Именованные параметры}
+
+Запрос \texttt{/hello/Peter} получает имя через \texttt{params[:name]}. Маршрут \texttt{/hello\_block/:name} передаёт параметр аргументом Ruby-блока. В \texttt{/players/:sport\_id} извлекается идентификатор спорта. Маршрут \texttt{/players/*/:year} сочетает splat с параметром года.
+
+\shot{02_named.png}{Именованные параметры и сочетание с маской}{72mm}
+
+\clearpage
+\subsection{Namespace}
+
+Внутри \texttt{namespace '/api/v1'} определён маршрут \texttt{/*}. У запроса \texttt{/api/v1/friends} параметр splat содержит только \texttt{friends}. Запрос \texttt{/friends} обрабатывается внешней маской. Корневой маршрут возвращает своё приветствие.
+
+\shot{03_namespace.png}{Корневой маршрут и маски внутри и вне namespace}{62mm}
+
+\clearpage
+\subsection{Перенаправление}
+
+Маршрут \texttt{/redirect} выполняет \texttt{redirect to('/hello/World')}. Автоматический тест отдельно проверяет наличие перенаправления, затем следует по адресу назначения. HTTP-клиент протокола также следует за перенаправлением; на рисунке показан конечный URL и итоговый ответ HTTP 200.
+
+\shot{04_redirect.png}{Переход на маршрут приветствия после перенаправления}{50mm}
+
+\subsection{Регулярное выражение и splat}
+
+Регулярное выражение извлекает слово после \texttt{/meta/hello/}. Запрос \texttt{/meta/hello/12345/world} возвращает \texttt{Hello, 12345!}. В \texttt{/say/*/to/*} извлекаются две строки, а в \texttt{/download/*.*} --- путь и расширение файла. Массивы представлены JSON-строкой.
+
+\shot{05_patterns.png}{Регулярное выражение, две маски и расширение файла}{72mm}
+
+\clearpage
+\subsection{Необязательный формат}
+
+Шаблон \texttt{/jobs.?:format?} обслуживает запросы \texttt{/jobs}, \texttt{/jobs.json} и \texttt{/jobs.xml}. Во всех случаях возвращается одна демонстрационная строка. Суффиксы показывают работу шаблона и не переключают сериализацию ответа.
+
+\shot{06_format.png}{Запросы с отсутствующим и заданным суффиксом формата}{65mm}
+
+\clearpage
+\section{Подготовка итогового API}
+
+В \texttt{api\_sinatra\_postgres.rb} используется классический стиль. После подключения конфигурации базы загружаются файлы из \texttt{models}, \texttt{helpers} и \texttt{routes}. Пути строятся относительно \texttt{\_\_dir\_\_}, поэтому загрузка не зависит от рабочей папки терминала.
+
+Файл \texttt{config.ru} запускает \texttt{Sinatra::Application}. Итоговое приложение проверено на порту 4568 одновременно с демонстрацией на 4567. Корневой запрос вернул \texttt{Hi! I am api\_sinatra\_postgres!} со статусом HTTP 200.
+
+\shot{07_api.png}{Корневой ответ и файлы сборки итогового приложения}{65mm}
+
+\clearpage
+\section{Автоматическая проверка и результаты}
+
+Для части 2 создан \texttt{test/routes\_test.rb}. Используются Minitest и Rack::Test. Проверены параметры, перенаправление, текстовый тип ответа, маски, регулярное выражение, необязательный формат и namespace.
+
+\begin{verbatim}
+bundle exec ruby -Itest test/routes_test.rb
+\end{verbatim}
+
+Результат отдельного запуска: 3 теста, 18 утверждений, 0 ошибок и 0 неудачных проверок. Прямые запуски и конфигурации Rack дополнительно проверены реальными HTTP-запросами. Общий набор частей 2--4 также прошёл: 10 тестов и 83 утверждения.
+
+\shot{08_tests.png}{Результат тестов маршрутизации и версии среды}{80mm}
+
+Настройка Run Configuration в RubyMine описана в README проекта. Запуск через эту IDE не выполнялся. Проверка проведена командами Ruby/Rack и HTTP-клиентом; снимки не выдаются за работу в RubyMine или Postman.
+
+\section{Вывод}
+
+Созданы классический и модульный варианты приложения Sinatra. Проверены прямой запуск и запуск через Rack, извлечение параметров URL, маски, регулярное выражение, перенаправление и namespace. Подготовлена структура итогового API с загрузкой моделей, общих методов и маршрутов. Результаты запросов и автоматические тесты подтверждают работу рассмотренных механизмов маршрутизации.
+
+\end{document}
