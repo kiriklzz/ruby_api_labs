@@ -73,3 +73,27 @@ curl -X POST http://localhost:4567/api/v1/companies \
 В Postman импортируйте `sinatra-api.postman_collection.json`. Переменная `base_url`
 уже задана. Запрос POST добавляет запись в development-базу.
 Учебное API запускается локально; авторизация в заданиях 2–4 не предусмотрена.
+
+## Дополнения после сверки методички
+
+```sh
+# Часть 2: классический стиль
+bundle exec ruby classic.rb
+bundle exec rackup -p 4567 classic.ru
+# Часть 2: модульный стиль
+bundle exec ruby my_sinatra.rb
+bundle exec rackup -p 4567 modular.ru
+# Итоговое приложение, части 3–4
+bundle exec rackup -p 4567 config.ru
+```
+
+Команды запуска — альтернативы; одновременно на одном порту их запускать нельзя.
+В RubyMine: Run → Edit Configurations → Ruby, Script: `my_sinatra.rb`,
+Working directory: папка `sinatra_api`, SDK: Ruby из `.ruby-version`.
+Для классического варианта укажите `classic.rb`.
+
+Дополнительные примеры: `/hello_block/Peter`, `/players/football`,
+`/players/performances/2016`, `/meta/hello/12345/world`.
+В query string также поддержан разделитель `;` из методички.
+В свежих seeds есть вакансия C++ с ID 11; уже применённые seeds автоматически не обновляются.
+Полная сверка, включая ручные пункты IDE: [CHECKLIST.md](CHECKLIST.md).

@@ -19,6 +19,8 @@ end
 
 before '/api/*' do
   content_type :json
+  # The handout also uses semicolons between query parameters.
+  params.merge!(Rack::Utils.parse_nested_query(request.query_string, '&;')) if request.query_string.include?(';')
 end
 
 error Sequel::ValidationFailed do

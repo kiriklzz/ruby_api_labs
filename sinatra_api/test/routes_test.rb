@@ -17,6 +17,10 @@ class RoutesTest < Minitest::Test
     assert last_response.redirect?
     follow_redirect!
     assert_includes last_response.body, 'World'
+    get '/hello_block/Peter'
+    assert_equal 'Hello Peter!', last_response.body
+    get '/hello/%3Cscript%3E'
+    assert_equal 'text/plain', last_response.media_type
   end
 
   def test_splat_and_optional_format
@@ -28,6 +32,14 @@ class RoutesTest < Minitest::Test
     assert_equal 'Да, работает этот маршрут!', last_response.body
     get '/meta/hello/world'
     assert_equal 'Hello, world!', last_response.body
+    get '/meta/hello/12345/world'
+    assert_equal 'Hello, 12345!', last_response.body
+    get '/jobs.xml'
+    assert_equal 'Да, работает этот маршрут!', last_response.body
+    get '/players/football'
+    assert_equal 'football', last_response.body
+    get '/players/performances/2016'
+    assert_equal({ 'splat' => ['performances'], 'year' => '2016' }, JSON.parse(last_response.body))
   end
 
   def test_namespace_and_fallback

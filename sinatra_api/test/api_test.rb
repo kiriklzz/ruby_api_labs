@@ -42,6 +42,12 @@ class ApiTest < Minitest::Test
     end
     get '/api/v1/companies?name[]=Mo'
     assert_equal 400, last_response.status
+    get '/api/v1/companies?name=Mo;location=Ne'
+    assert_equal [@company.id], json.map { |row| row['id'] }
+    get '/api/v1/companies?name=Mo;location=Si'
+    assert_equal [], json
+    get '/api/v1/companies?name=Mo%3BGo'
+    assert_equal [], json
   end
 
   def test_jobs_and_associations
